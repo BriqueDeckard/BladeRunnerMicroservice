@@ -1,4 +1,4 @@
-package perso.replicantmicroservice.infrastructure.configs.data;
+package perso.petmicroservice.petmicroservice.infrastructure.configs.data;
 
 
 import com.mongodb.ConnectionString;
@@ -9,10 +9,9 @@ import org.bson.UuidRepresentation;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import perso.replicantmicroservice.infrastructure.data.repositories.MongoReplicantRepository;
 
 @Configuration
-@EnableMongoRepositories(basePackageClasses = MongoReplicantRepository.class)
+@EnableMongoRepositories()
 public class MongoDbConfiguration extends AbstractMongoClientConfiguration {
 
 	@Override
