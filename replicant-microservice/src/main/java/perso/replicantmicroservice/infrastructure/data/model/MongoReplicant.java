@@ -5,8 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import perso.replicantmicroservice.domain.contracts.model.ReplicantContract;
 import perso.replicantmicroservice.domain.enums.ReplicantStatus;
 
-@Document("replicant")
-public class MongoDbReplicant implements ReplicantContract<String> {
+@Document("replicants")
+public class MongoReplicant implements ReplicantContract<String> {
 
 	@Id
 	private String identifier;

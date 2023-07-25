@@ -1,11 +1,13 @@
 package perso.replicantmicroservice.application.controllers;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import perso.replicantmicroservice.application.dto.requests.CreateReplicantRequestDTO;
 import perso.replicantmicroservice.application.dto.requests.UpdateReplicantRequestDTO;
+import perso.replicantmicroservice.application.dto.response.PetDto;
 import perso.replicantmicroservice.domain.contracts.services.ReplicantDomainService;
 import perso.replicantmicroservice.domain.model.Replicant;
 import perso.replicantmicroservice.infrastructure.clients.ApiCallService;
@@ -56,8 +58,8 @@ public class ReplicantController {
 	}
 
 	@GetMapping("/apicall")
-	Mono<String> apiCall() {
-		return apiCallService.someRestCall("/api/v1/pet");
+	Mono<Set<PetDto>> apiCall() {
+		return apiCallService.someRestCall("/api/v1/pet").collect(Collectors.toSet());
 	}
 
 	@ExceptionHandler({ IllegalArgumentException.class })

@@ -4,12 +4,12 @@ import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import perso.replicantmicroservice.domain.model.Replicant;
-import perso.replicantmicroservice.infrastructure.data.model.MongoDbReplicant;
+import perso.replicantmicroservice.infrastructure.data.model.MongoReplicant;
 
 @Mapper
-public interface ReplicantToMongoDbReplicantMapper {
+public interface ReplicantToMongoReplicantMapper {
 	@Mapping(target = "identifier", expression = "java(mapId(replicant))")
-	MongoDbReplicant toMongoDb(Replicant replicant);
+	MongoReplicant toMongo(Replicant replicant);
 
 	default String mapId(Replicant replicant) {
 		if (replicant.getIdentifier() != null) {

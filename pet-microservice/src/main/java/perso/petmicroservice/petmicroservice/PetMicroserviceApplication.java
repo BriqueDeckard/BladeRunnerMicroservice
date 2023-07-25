@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 public class PetMicroserviceApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(PetMicroserviceApplication.class, args);
 	}
 

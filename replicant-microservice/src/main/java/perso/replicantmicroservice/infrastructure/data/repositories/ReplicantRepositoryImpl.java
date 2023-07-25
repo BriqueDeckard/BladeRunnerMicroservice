@@ -3,37 +3,38 @@ package perso.replicantmicroservice.infrastructure.data.repositories;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import perso.replicantmicroservice.domain.contracts.repositories.ReplicantRepository;
 import perso.replicantmicroservice.domain.model.Replicant;
-import perso.replicantmicroservice.infrastructure.data.contracts.mappers.todb.MongoDbReplicantToReplicantMapper;
-import perso.replicantmicroservice.infrastructure.data.contracts.mappers.todb.ReplicantToMongoDbReplicantMapper;
-import perso.replicantmicroservice.infrastructure.data.model.MongoDbReplicant;
+import perso.replicantmicroservice.infrastructure.data.contracts.mappers.toentity.MongoReplicantToReplicantMapper;
+import perso.replicantmicroservice.infrastructure.data.contracts.mappers.todb.ReplicantToMongoReplicantMapper;
+import perso.replicantmicroservice.infrastructure.data.model.MongoReplicant;
 
 @Repository
 public class ReplicantRepositoryImpl implements ReplicantRepository {
 
 	private final MongoReplicantRepository mongoReplicantRepository;
 
-	private final ReplicantToMongoDbReplicantMapper replicantToMongoDbReplicantMapper;
+	private final ReplicantToMongoReplicantMapper replicantToMongoReplicantMapper;
 
-	private final MongoDbReplicantToReplicantMapper mongoDbReplicantToReplicantMapper;
+	private final MongoReplicantToReplicantMapper mongoReplicantToReplicantMapper;
 
 	@Autowired
 	public ReplicantRepositoryImpl(
 			MongoReplicantRepository mongoReplicantRepository,
-			ReplicantToMongoDbReplicantMapper replicantToMongoDbReplicantMapper,
-			MongoDbReplicantToReplicantMapper mongoDbReplicantToReplicantMapper) {
+			ReplicantToMongoReplicantMapper replicantToMongoReplicantMapper,
+			MongoReplicantToReplicantMapper mongoReplicantToReplicantMapper) {
 		this.mongoReplicantRepository = mongoReplicantRepository;
-		this.replicantToMongoDbReplicantMapper = replicantToMongoDbReplicantMapper;
-		this.mongoDbReplicantToReplicantMapper = mongoDbReplicantToReplicantMapper;
+		this.replicantToMongoReplicantMapper = replicantToMongoReplicantMapper;
+		this.mongoReplicantToReplicantMapper = mongoReplicantToReplicantMapper;
 	}
 
 	@Override
 	public Replicant save(Replicant replicant) {
-		MongoDbReplicant mongoReplicant = replicantToMongoDbReplicantMapper.toMongoDb(replicant);
+		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant);
 		mongoReplicantRepository.save(mongoReplicant);
 		return replicant;
 	}
@@ -45,21 +46,20 @@ public class ReplicantRepositoryImpl implements ReplicantRepository {
 
 	@Override
 	public Set<Replicant> findAll() {
-		List<MongoDbReplicant> dbReplicants = mongoReplicantRepository.findAll();
+		List<MongoReplicant> dbReplicants = mongoReplicantRepository.findAll();
 		return dbReplicants
 				.stream()
-				.map(dbEntity -> mongoDbReplicantToReplicantMapper.toReplicant(dbEntity))
+				.map(mongoReplicantToReplicantMapper::toReplicant)
 				.collect(Collectors.toSet());
 	}
 
 	@Override
-	public Replicant findByIdentifier(String identifier) {
-		Optional<MongoDbReplicant> oReplicant = mongoReplicantRepository.findByIdentifierLike(identifier);
+	public Replicant findByIdentifier(UUID identifier) {
+		Optional<MongoReplicant> oReplicant = mongoReplicantRepository.findByIdentifierLike(identifier.toString());
 		if (!oReplicant.isPresent()) {
 			throw new IllegalStateException("Replicant not found");
 		}
-		Replicant replicant = mongoDbReplicantToReplicantMapper.toReplicant(oReplicant.get());
-		return replicant;
+		return mongoReplicantToReplicantMapper.toReplicant(oReplicant.get());
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class ReplicantRepositoryImpl implements ReplicantRepository {
 	@Override
 	public Replicant update(Replicant replicant) {
 
-		MongoDbReplicant mongoReplicant = replicantToMongoDbReplicantMapper.toMongoDb(replicant);
+		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant);
 		mongoReplicantRepository.save(mongoReplicant);
 		return replicant;
 	}

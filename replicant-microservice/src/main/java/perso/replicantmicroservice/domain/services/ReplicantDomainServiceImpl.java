@@ -1,6 +1,7 @@
 package perso.replicantmicroservice.domain.services;
 
 import java.util.Set;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import perso.replicantmicroservice.application.dto.requests.CreateReplicantRequestDTO;
@@ -52,7 +53,14 @@ public class ReplicantDomainServiceImpl implements ReplicantDomainService {
 
 	@Override
 	public Replicant findByIdentifier(String identifier) {
-		return replicantRepository.findByIdentifier(identifier);
+		UUID id;
+		try {
+			id = UUID.fromString(identifier);
+		}catch (Exception e){
+			throw e;
+		}
+
+		return replicantRepository.findByIdentifier(id);
 	}
 
 	@Override
