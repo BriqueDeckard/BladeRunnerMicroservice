@@ -15,14 +15,21 @@ import perso.replicantmicroservice.infrastructure.data.model.MongoDbReplicant;
 @Repository
 public class ReplicantRepositoryImpl implements ReplicantRepository {
 
-	@Autowired
-	MongoReplicantRepository mongoReplicantRepository;
+	private final MongoReplicantRepository mongoReplicantRepository;
+
+	private final ReplicantToMongoDbReplicantMapper replicantToMongoDbReplicantMapper;
+
+	private final MongoDbReplicantToReplicantMapper mongoDbReplicantToReplicantMapper;
 
 	@Autowired
-	ReplicantToMongoDbReplicantMapper replicantToMongoDbReplicantMapper;
-
-	@Autowired
-	MongoDbReplicantToReplicantMapper mongoDbReplicantToReplicantMapper;
+	public ReplicantRepositoryImpl(
+			MongoReplicantRepository mongoReplicantRepository,
+			ReplicantToMongoDbReplicantMapper replicantToMongoDbReplicantMapper,
+			MongoDbReplicantToReplicantMapper mongoDbReplicantToReplicantMapper) {
+		this.mongoReplicantRepository = mongoReplicantRepository;
+		this.replicantToMongoDbReplicantMapper = replicantToMongoDbReplicantMapper;
+		this.mongoDbReplicantToReplicantMapper = mongoDbReplicantToReplicantMapper;
+	}
 
 	@Override
 	public Replicant save(Replicant replicant) {

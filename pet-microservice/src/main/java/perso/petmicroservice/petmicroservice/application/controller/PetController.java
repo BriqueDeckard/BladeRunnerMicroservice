@@ -8,8 +8,6 @@ import perso.replicantmicroservice.application.dto.requests.CreateReplicantReque
 import perso.replicantmicroservice.application.dto.requests.UpdateReplicantRequestDTO;
 import perso.replicantmicroservice.domain.contracts.services.ReplicantDomainService;
 import perso.replicantmicroservice.domain.model.Replicant;
-import perso.replicantmicroservice.infrastructure.clients.ApiCallService;
-import reactor.core.publisher.Mono;
 
 
 @RestController()
@@ -17,13 +15,11 @@ import reactor.core.publisher.Mono;
 public class ReplicantController {
 
 	@Autowired
-	public ReplicantController(ReplicantDomainService replicantDomainService, ApiCallService apiCallService) {
+	public ReplicantController(ReplicantDomainService replicantDomainService) {
 		this.replicantDomainService = replicantDomainService;
-		this.apiCallService = apiCallService;
 	}
 
 	private final ReplicantDomainService replicantDomainService;
-	private final ApiCallService apiCallService;
 
 	@PostMapping()
 	Replicant create(@Valid @RequestBody CreateReplicantRequestDTO replicantRequest) {
@@ -55,13 +51,8 @@ public class ReplicantController {
 		replicantDomainService.deleteAll();
 	}
 
-	@GetMapping("/apicall")
-	Mono<String> apiCall() {
-		return apiCallService.someRestCall("/api/v1/pet");
-	}
-
 	@ExceptionHandler({ IllegalArgumentException.class })
-	public void handleIllegalArgumentException() {
+	public void handleIllegalArgumentException(){
 
 	}
 }

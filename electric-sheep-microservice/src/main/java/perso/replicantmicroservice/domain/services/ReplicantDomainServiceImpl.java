@@ -13,11 +13,15 @@ import perso.replicantmicroservice.domain.model.Replicant;
 @Service
 public class ReplicantDomainServiceImpl implements ReplicantDomainService {
 
-	@Autowired
 	ReplicantRepository replicantRepository;
 
-	@Autowired
 	CreateReplicantRequestDTOToReplicantMapper createReplicantRequestDTOToReplicantMapper;
+
+	@Autowired
+	public ReplicantDomainServiceImpl(ReplicantRepository replicantRepository, CreateReplicantRequestDTOToReplicantMapper createReplicantRequestDTOToReplicantMapper) {
+		this.replicantRepository = replicantRepository;
+		this.createReplicantRequestDTOToReplicantMapper = createReplicantRequestDTOToReplicantMapper;
+	}
 
 	@Override
 	public Replicant save(Replicant replicant) {
@@ -41,7 +45,7 @@ public class ReplicantDomainServiceImpl implements ReplicantDomainService {
 
 	@Override
 	public Replicant create(CreateReplicantRequestDTO replicantRequest) {
-		Replicant replicant =  createReplicantRequestDTOToReplicantMapper.toReplicant(replicantRequest);
+		Replicant replicant = createReplicantRequestDTOToReplicantMapper.toReplicant(replicantRequest);
 		replicant = save(replicant);
 		return replicant;
 	}

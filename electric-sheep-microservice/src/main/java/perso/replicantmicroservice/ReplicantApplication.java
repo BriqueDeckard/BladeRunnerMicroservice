@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import perso.replicantmicroservice.domain.contracts.services.ReplicantDomainService;
-import perso.replicantmicroservice.domain.model.Replicant;
-import perso.replicantmicroservice.infrastructure.data.model.MongoDbReplicant;
 
 /**
  * Used to bootstrap and launch the Spring application from a Java main method.
@@ -14,7 +14,7 @@ import perso.replicantmicroservice.infrastructure.data.model.MongoDbReplicant;
  * @author Deqard
  * @since 1.0
  */
-@SpringBootApplication(scanBasePackages = { "perso.*" })
+@SpringBootApplication(scanBasePackages = { "perso.*" }, exclude = { SecurityAutoConfiguration.class, UserDetailsServiceAutoConfiguration.class })
 public class ReplicantApplication implements CommandLineRunner {
 
 	/**
@@ -29,8 +29,9 @@ public class ReplicantApplication implements CommandLineRunner {
 
 	@Autowired
 	private ReplicantDomainService replicantDomainService;
+
 	@Override
-	public void run(String... args) throws Exception{
+	public void run(String... args) throws Exception {
 
 	}
 }
