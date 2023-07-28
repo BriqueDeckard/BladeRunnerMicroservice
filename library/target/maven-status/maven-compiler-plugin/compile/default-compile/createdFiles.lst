@@ -1,1 +1,2 @@
+perso\library\infrastructure\data\contracts\repositories\GenericJpaRepository.class
 perso\library\domain\contracts\repositories\GenericDomainRepository.class

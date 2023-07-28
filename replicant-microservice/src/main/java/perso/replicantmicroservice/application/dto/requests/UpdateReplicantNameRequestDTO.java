@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 
-public class UpdateReplicantRequestDTO {
+public class UpdateReplicantNameRequestDTO {
 
 	@NotBlank
 	@JsonProperty("name")
 	private String name;
 
 	@JsonCreator
-	public UpdateReplicantRequestDTO(String name) {
+	public UpdateReplicantNameRequestDTO(String name) {
 		this.name = name;
 	}
 
 	@JsonCreator
-	public UpdateReplicantRequestDTO() {
+	public UpdateReplicantNameRequestDTO() {
 	}
 
 	public String getName() {

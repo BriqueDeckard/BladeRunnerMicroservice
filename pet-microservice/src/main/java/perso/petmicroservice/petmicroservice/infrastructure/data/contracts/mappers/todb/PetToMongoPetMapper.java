@@ -1,4 +1,4 @@
-package perso.petmicroservice.petmicroservice.infrastructure.data.contracts.mapper.todb;
+package perso.petmicroservice.petmicroservice.infrastructure.data.contracts.mappers.todb;
 
 import java.util.UUID;
 import org.mapstruct.Mapper;

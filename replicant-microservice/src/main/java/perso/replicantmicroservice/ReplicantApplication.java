@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
-import perso.replicantmicroservice.domain.contracts.services.ReplicantDomainService;
+import perso.replicantmicroservice.domain.contracts.services.ReplicantDomainCreateService;
 
 /**
  * Used to bootstrap and launch the Spring application from a Java main method.
@@ -28,7 +28,7 @@ public class ReplicantApplication implements CommandLineRunner {
 
 
 	@Autowired
-	private ReplicantDomainService replicantDomainService;
+	private ReplicantDomainCreateService replicantDomainCreateService;
 
 	@Override
 	public void run(String... args) throws Exception {

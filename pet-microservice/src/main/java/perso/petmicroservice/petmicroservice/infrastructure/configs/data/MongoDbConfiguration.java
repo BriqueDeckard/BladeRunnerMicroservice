@@ -9,9 +9,10 @@ import org.bson.UuidRepresentation;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import perso.petmicroservice.petmicroservice.infrastructure.data.repositories.MongoPetRepository;
 
 @Configuration
-@EnableMongoRepositories()
+@EnableMongoRepositories(basePackageClasses = MongoPetRepository.class)
 public class MongoDbConfiguration extends AbstractMongoClientConfiguration {
 
 	@Override

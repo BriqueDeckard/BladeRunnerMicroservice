@@ -14,6 +14,22 @@ public class MongoPet implements PetContract<String> {
 	private Integer age;
 	private PetStatus status;
 
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public void setStatus(PetStatus status) {
+		this.status = status;
+	}
+
 	@Override
 	public String getIdentifier() {
 		return identifier;
@@ -32,5 +48,15 @@ public class MongoPet implements PetContract<String> {
 	@Override
 	public PetStatus getStatus() {
 		return status;
+	}
+
+	@Override
+	public String toString() {
+		return "MongoPet{" +
+				"identifier='" + identifier + '\'' +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", status=" + status +
+				'}';
 	}
 }

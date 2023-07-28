@@ -1,7 +1,5 @@
 package perso.replicantmicroservice.infrastructure.data.repositories;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -9,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import perso.replicantmicroservice.domain.contracts.repositories.ReplicantRepository;
 import perso.replicantmicroservice.domain.model.Replicant;
-import perso.replicantmicroservice.infrastructure.data.contracts.mappers.toentity.MongoReplicantToReplicantMapper;
 import perso.replicantmicroservice.infrastructure.data.contracts.mappers.todb.ReplicantToMongoReplicantMapper;
+import perso.replicantmicroservice.infrastructure.data.contracts.mappers.toentity.MongoReplicantToReplicantMapper;
 import perso.replicantmicroservice.infrastructure.data.model.MongoReplicant;
 
 @Repository
@@ -33,45 +31,43 @@ public class ReplicantRepositoryImpl implements ReplicantRepository {
 	}
 
 	@Override
-	public Replicant save(Replicant replicant) {
+	public Replicant create(Replicant replicant) {
 		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant);
-		mongoReplicantRepository.save(mongoReplicant);
+		mongoReplicantRepository.insert(mongoReplicant);
 		return replicant;
 	}
 
 	@Override
-	public void deleteAll() {
-		mongoReplicantRepository.deleteAll();
-	}
-
-	@Override
-	public Set<Replicant> findAll() {
-		List<MongoReplicant> dbReplicants = mongoReplicantRepository.findAll();
-		return dbReplicants
+	public Set<Replicant> read() {
+		return mongoReplicantRepository
+				.findAll()
 				.stream()
 				.map(mongoReplicantToReplicantMapper::toReplicant)
 				.collect(Collectors.toSet());
 	}
 
 	@Override
-	public Replicant findByIdentifier(UUID identifier) {
-		Optional<MongoReplicant> oReplicant = mongoReplicantRepository.findByIdentifierLike(identifier.toString());
-		if (!oReplicant.isPresent()) {
-			throw new IllegalStateException("Replicant not found");
-		}
-		return mongoReplicantToReplicantMapper.toReplicant(oReplicant.get());
+	public Replicant read(UUID uuid) {
+		return mongoReplicantToReplicantMapper.toReplicant(
+				mongoReplicantRepository
+						.findById(uuid.toString())
+						.orElseThrow(IllegalArgumentException::new));
 	}
 
 	@Override
-	public void deleteByIdentifier(String identifier) {
-		mongoReplicantRepository.deleteByIdentifierLike(identifier);
-	}
-
-	@Override
-	public Replicant update(Replicant replicant) {
-
-		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant);
+	public Replicant update(Replicant replicant, UUID uuid) {
+		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant, uuid);
 		mongoReplicantRepository.save(mongoReplicant);
-		return replicant;
+		return mongoReplicantToReplicantMapper.toReplicant(mongoReplicant);
+	}
+
+	@Override
+	public void delete(UUID uuid) {
+		mongoReplicantRepository.deleteById(uuid.toString());
+	}
+
+	@Override
+	public void delete() {
+		mongoReplicantRepository.deleteAll();
 	}
 }

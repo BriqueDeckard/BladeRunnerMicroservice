@@ -1,12 +1,17 @@
 package perso.library.domain.contracts.repositories;
 
-import java.util.Set;
+import java.util.Collection;
 
-public interface GenericDomainRepository<ENTITY,IDENTIFIER> {
-	ENTITY save(ENTITY entity);
-	void deleteAll();
-	Set<ENTITY> findAll();
-	ENTITY findByIdentifier(IDENTIFIER identifier);
+public interface GenericDomainRepository<ENTITY, IDENTIFIER> {
+	ENTITY create(ENTITY entity);
 
-	void deleteByIdentifier(String identifier);
+	Collection<ENTITY> read();
+
+	ENTITY read(IDENTIFIER identifier);
+
+	ENTITY update(ENTITY entity, IDENTIFIER identifier);
+
+	void delete(IDENTIFIER identifier);
+
+	void delete();
 }

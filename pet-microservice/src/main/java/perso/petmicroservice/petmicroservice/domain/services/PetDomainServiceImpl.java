@@ -25,17 +25,23 @@ public class PetDomainServiceImpl implements PetDomainService {
 
 	@Override
 	public Pet save(Pet pet) {
-		return petRepository.save(pet);
+		return petRepository.create(pet);
 	}
 
 	@Override
 	public void deleteAll() {
-		petRepository.deleteAll();
+		petRepository.delete();
 	}
 
 	@Override
 	public void deleteByIdentifier(String identifier) {
-		petRepository.deleteByIdentifier(identifier);
+		UUID uid;
+		try {
+			uid = UUID.fromString(identifier);
+		} catch (Exception e) {
+			throw e;
+		}
+		petRepository.delete(uid);
 	}
 
 	@Override
