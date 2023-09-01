@@ -34,6 +34,7 @@ public class ReplicantRepositoryImpl implements ReplicantRepository {
 	public Replicant create(Replicant replicant) {
 		MongoReplicant mongoReplicant = replicantToMongoReplicantMapper.toMongo(replicant);
 		mongoReplicantRepository.insert(mongoReplicant);
+		replicant.setIdentifier(UUID.fromString(mongoReplicant.getIdentifier()));
 		return replicant;
 	}
 
